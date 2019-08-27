@@ -39,13 +39,13 @@ const (
 func GetOrientation(reader io.Reader) Orientation {
 	x, err := exif.Decode(reader)
 	if err != nil {
-		zap.L().Warn("exif decode error", zap.String("error", err.Error()))
+		zap.L().Debug("exif decode error", zap.String("error", err.Error()))
 		return TopLeft
 	}
 	if x != nil {
 		orient, err := x.Get(exif.Orientation)
 		if err != nil {
-			zap.L().Warn("exif decode error", zap.String("error", err.Error()))
+			zap.L().Debug("exif decode error", zap.String("error", err.Error()))
 			return TopLeft
 		}
 		if orient != nil {
