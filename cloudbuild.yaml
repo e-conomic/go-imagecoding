@@ -1,61 +1,9 @@
 steps:
-
-# Decrypt the GitHub SSH key
-- name: 'gcr.io/cloud-builders/gcloud'
-  args:
-  - kms
-  - decrypt
-  - --ciphertext-file=.github-ssh.enc
-  - --plaintext-file=/root/.ssh/id_rsa
-  - --location=global
-  - --keyring=builder
-  - --key=github-key
-  volumes:
-  - name: 'ssh'
-    path: /root/.ssh
-
-# Set up git with key and domain.
-# Verify against https://help.github.com/en/articles/githubs-ssh-key-fingerprints
-- name: 'gcr.io/cloud-builders/git'
-  entrypoint: 'bash'
-  args:
-  - '-c'
-  - |
-    chmod 600 /root/.ssh/id_rsa
-    cat <<EOF >/root/.ssh/config
-    Hostname github.com
-    IdentityFile /root/.ssh/id_rsa
-    EOF
-    ssh-keyscan -t rsa github.com > /root/.ssh/known_hosts
-    ssh-keygen -lf /root/.ssh/known_hosts | grep SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8
-  volumes:
-  - name: 'ssh'
-    path: /root/.ssh
-
-# Use git clone with git-lfs installed to copy over test data
-- name: 'gcr.io/cloud-builders/git'
-  entrypoint: 'bash'
-  args:
-  - '-c'
-  - |
-    curl -SLs -o git-lfs_2.7.1_amd64.deb https://packagecloud.io/github/git-lfs/packages/debian/stretch/git-lfs_2.7.1_amd64.deb/download
-    echo -n "fad9b0baaaefb6cd0922d892d2af57774065938d10c35d754976a4b461e98430  git-lfs_2.7.1_amd64.deb" | shasum -c -
-    dpkg -i git-lfs_2.7.1_amd64.deb
-    rm git-lfs_2.7.1_amd64.deb
-    git clone --depth=1 --branch $BRANCH_NAME git@github.com:e-conomic/go-imagecoding
-    cp -r go-imagecoding/testdata ./
-  id: lfs-pull
-  volumes:
-  - name: 'ssh'
-    path: /root/.ssh
-
-# Build an image used for caching
 - name: 'gcr.io/cloud-builders/docker'
   args: [
     "build", 
     "."
   ]
-  waitFor: ['lfs-pull']
   id: docker-builder
 
 timeout: 1800s
