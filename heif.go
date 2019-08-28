@@ -5,6 +5,7 @@ package imagecoding
 import (
 	"image"
 	"image/color"
+	"runtime"
 )
 
 import "github.com/strukturag/libheif/go/heif"
@@ -74,7 +75,11 @@ func TransformHeif(data []byte, grayscale bool, scale ScaleFunc) (out image.Imag
 	scaledW, scaledH, scaleFactor := scale(width, height)
 
 	var img *heif.Image
-	img, err = imgh.DecodeImage(heif.ColorspaceRGB, heif.ChromaInterleavedRGBA, nil)
+	if grayscale {
+		img, err = imgh.DecodeImage(heif.ColorspaceUndefined, heif.ChromaUndefined, nil)
+	} else {
+		img, err = imgh.DecodeImage(heif.ColorspaceRGB, heif.ChromaInterleavedRGBA, nil)
+	}
 	if err != nil {
 		return nil, 0, 0, 0, err
 	}
@@ -93,6 +98,7 @@ func TransformHeif(data []byte, grayscale bool, scale ScaleFunc) (out image.Imag
 	if err != nil {
 		return nil, 0, 0, 0, err
 	}
+	runtime.KeepAlive(ctx)
 
 	// libheif does not support conversion from YUV/RGB -> Gray Scale
 	if grayscale {
