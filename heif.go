@@ -23,11 +23,13 @@ func ConfigHeif(data []byte) (image.Config, string, error) {
 	if err != nil {
 		return image.Config{}, string(Heif), err
 	}
-	return image.Config{
+	cfg := image.Config{
 		ColorModel: color.YCbCrModel,
 		Width:      img.GetWidth(),
 		Height:     img.GetHeight(),
-	}, string(Heif), nil
+	}
+	runtime.KeepAlive(ctx)
+	return cfg, string(Heif), nil
 }
 
 func DecodeHeif(data []byte) (image.Image, error) {
@@ -44,6 +46,7 @@ func DecodeHeif(data []byte) (image.Image, error) {
 		return nil, err
 	}
 	img, err := imgh.DecodeImage(heif.ColorspaceUndefined, heif.ChromaUndefined, nil)
+	runtime.KeepAlive(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -80,6 +83,7 @@ func TransformHeif(data []byte, grayscale bool, scale ScaleFunc) (out image.Imag
 	} else {
 		img, err = imgh.DecodeImage(heif.ColorspaceRGB, heif.ChromaInterleavedRGBA, nil)
 	}
+	runtime.KeepAlive(ctx)
 	if err != nil {
 		return nil, 0, 0, 0, err
 	}
@@ -98,7 +102,6 @@ func TransformHeif(data []byte, grayscale bool, scale ScaleFunc) (out image.Imag
 	if err != nil {
 		return nil, 0, 0, 0, err
 	}
-	runtime.KeepAlive(ctx)
 
 	// libheif does not support conversion from YUV/RGB -> Gray Scale
 	if grayscale {
