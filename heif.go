@@ -78,11 +78,7 @@ func TransformHeif(data []byte, grayscale bool, scale ScaleFunc) (out image.Imag
 	scaledW, scaledH, scaleFactor := scale(width, height)
 
 	var img *heif.Image
-	if grayscale {
-		img, err = imgh.DecodeImage(heif.ColorspaceUndefined, heif.ChromaUndefined, nil)
-	} else {
-		img, err = imgh.DecodeImage(heif.ColorspaceRGB, heif.ChromaInterleavedRGBA, nil)
-	}
+	img, err = imgh.DecodeImage(heif.ColorspaceUndefined, heif.ChromaUndefined, nil)
 	runtime.KeepAlive(ctx)
 	if err != nil {
 		return nil, 0, 0, 0, err

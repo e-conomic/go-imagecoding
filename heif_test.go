@@ -15,10 +15,19 @@ func TestHeifTransform(t *testing.T) {
 		t.FailNow()
 	}
 
-	img, _, _, _, err := TransformHeif(sample, true, DefaultScale)
-	if assert.NoError(t, err) {
-		assert.Equal(t, 1754, img.Bounds().Dx())
-		assert.Equal(t, 1002, img.Bounds().Dy())
+	{
+		img, _, _, _, err := TransformHeif(sample, true, DefaultScale)
+		if assert.NoError(t, err) {
+			assert.Equal(t, 1754, img.Bounds().Dx())
+			assert.Equal(t, 1002, img.Bounds().Dy())
+		}
+	}
+	{
+		img, _, _, _, err := TransformHeif(sample, false, DefaultScale)
+		if assert.NoError(t, err) {
+			assert.Equal(t, 1754, img.Bounds().Dx())
+			assert.Equal(t, 1002, img.Bounds().Dy())
+		}
 	}
 }
 
