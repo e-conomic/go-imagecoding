@@ -118,6 +118,9 @@ func getTransformOperation(orient Orientation) []TurboJpegOperation {
 // ReOrientJpeg will transform a JPEG into a top left (normal) orientation
 // It returns a buffer with JPEG encoding
 func ReOrientJpeg(file []byte, orient Orientation) ([]byte, error) {
+	if len(file) == 0 {
+		return nil, EmptyInputError
+	}
 	// Init a transform
 	tjHandle := C.tjInitTransform()
 	if tjHandle == nil {
@@ -159,6 +162,10 @@ func ReOrientJpeg(file []byte, orient Orientation) ([]byte, error) {
 }
 
 func ConfigJpeg(data []byte) (image.Config, string, error) {
+	if len(data) == 0 {
+		return image.Config{}, string(Jpeg), EmptyInputError
+	}
+
 	// Init Turbo-JPEG Decompression
 	tjHandle := C.tjInitDecompress()
 	if tjHandle == nil {
@@ -203,6 +210,9 @@ func ConfigJpeg(data []byte) (image.Config, string, error) {
 // TransformJpeg will scale and colormap an input JPEG file to an image.Gray or RGBImage
 // This will use libjpeg-turbo to do it as efficiently as possible, utilizing DCT factors for fast scaling
 func TransformJpeg(data []byte, grayscale bool, scale ScaleFunc) (out image.Image, width, height int, scaleFactor float64, err error) {
+	if len(data) == 0 {
+		return nil, 0, 0, -1, EmptyInputError
+	}
 
 	// Init Turbo-JPEG Decompression
 	tjHandle := C.tjInitDecompress()
