@@ -11,6 +11,9 @@ import (
 import "github.com/strukturag/libheif/go/heif"
 
 func ConfigHeif(data []byte) (image.Config, string, error) {
+	if len(data) == 0 {
+		return image.Config{}, string(Heif), EmptyInputError
+	}
 	ctx, err := heif.NewContext()
 	if err != nil {
 		return image.Config{}, string(Heif), err
@@ -33,6 +36,9 @@ func ConfigHeif(data []byte) (image.Config, string, error) {
 }
 
 func DecodeHeif(data []byte) (image.Image, error) {
+	if len(data) == 0 {
+		return nil, EmptyInputError
+	}
 	ctx, err := heif.NewContext()
 	if err != nil {
 		return nil, err
@@ -58,6 +64,9 @@ func DecodeHeif(data []byte) (image.Image, error) {
 }
 
 func TransformHeif(data []byte, grayscale bool, scale ScaleFunc) (out image.Image, width, height int, scaleFactor float64, err error) {
+	if len(data) == 0 {
+		return nil, 0, 0, 0, EmptyInputError
+	}
 	ctx, err := heif.NewContext()
 	if err != nil {
 		return nil, 0, 0, 0, err

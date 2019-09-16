@@ -1,25 +1,22 @@
-FROM golang:1.12-buster as builder
+FROM golang:1.13-buster as builder
 
-ENV GOLANGCI_VERSION "1.16.0"
-ENV GOLANGCI_SHASUM "5343fc3ffcbb9910925f4047ec3c9f2e9623dd56a72a17ac76fb2886abc0976b"
+ENV GOLANGCI_VERSION "1.18.0"
+ENV GOLANGCI_SHASUM "0ef2c502035d5f12d6d3a30a7c4469cfcae4dd3828d15fbbfb799c8331cd51c4"
 
 WORKDIR /app
 
 # Install libheif from Debian Bullseye, only required for optional libheif
 # Install libjpeg-turbo from Debian Experimental
-RUN apt-get update \
+RUN \
+  echo "deb http://deb.debian.org/debian bullseye main" | tee -a /etc/apt/sources.list \
+  && echo "deb http://deb.debian.org/debian experimental main" | tee -a /etc/apt/sources.list \
+  && apt-get update \
 # Start libheif
-  && wget -q http://deb.debian.org/debian/pool/main/libh/libheif/libheif-dev_1.5.0-1+b1_amd64.deb \
-  && wget -q http://deb.debian.org/debian/pool/main/libh/libheif/libheif1_1.5.0-1+b1_amd64.deb \
-  && wget -q http://deb.debian.org/debian/pool/main/x/x265/libx265-176_3.1.1-2_amd64.deb \
-  && wget -q http://deb.debian.org/debian/pool/main/g/gcc-9/libstdc++6_9.2.1-4_amd64.deb \
-  && wget -q http://deb.debian.org/debian/pool/main/g/gcc-9/gcc-9-base_9.2.1-4_amd64.deb \
+  && apt-get install -t bullseye -y --no-install-recommends libheif-dev \
 # Start turbojpeg
-  && wget -q http://deb.debian.org/debian/pool/main/libj/libjpeg-turbo/libturbojpeg0_2.0.2-1~exp2_amd64.deb \
-  && wget -q http://deb.debian.org/debian/pool/main/libj/libjpeg-turbo/libturbojpeg0-dev_2.0.2-1~exp2_amd64.deb \
+  && apt-get install -t experimental -y --no-install-recommends libturbojpeg0-dev \
 # Install dep packages
-  && apt-get install -y ./*.deb \
-  && apt-get install -y --no-install-recommends libwebp-dev libpng-dev autoconf libtool make nasm pkg-config libgomp1 \
+  && apt-get install -t buster -y --no-install-recommends libwebp-dev libpng-dev autoconf libtool make nasm pkg-config libgomp1 \
   && apt-get clean
 
 # Install GolangCI

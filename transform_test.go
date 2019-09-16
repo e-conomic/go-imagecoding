@@ -42,6 +42,14 @@ func TestTransformNoError(t *testing.T) {
 	}
 }
 
+func TestTransformEmpty(t *testing.T) {
+	empty := []byte{}
+	_, _, _, _, err := Transform(empty, true, DefaultScale)
+	if assert.Error(t, err) {
+		assert.Equal(t, EmptyInputError, err)
+	}
+}
+
 func BenchmarkPNGTransform(b *testing.B) {
 	sample, err := ioutil.ReadFile("testdata/gamer.png")
 	if !assert.NoError(b, err) {

@@ -3,6 +3,7 @@
 package imagecoding
 
 import (
+	"errors"
 	"math"
 
 	"github.com/harukasan/go-libwebp/webp"
@@ -57,3 +58,5 @@ const (
 	Webp ImgFormat = "webp"
 	Heif ImgFormat = "heif"
 )
+
+var EmptyInputError = errors.New("empty input data")
