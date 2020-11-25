@@ -12,7 +12,7 @@ import (
 
 func TestJpegExifReference(t *testing.T) {
 	// For control, read a normal image
-	refhash := readImageHash(fmt.Sprintf("testdata/f1-exif.jpg"), t, false)
+	refhash := readImageHash("testdata/f1-exif.jpg", t, false)
 	// Check all 8 orientations
 	for f := 1; f <= 8; f++ {
 		filename := fmt.Sprintf("testdata/f%d-exif.jpg", f)
