@@ -1,7 +1,7 @@
-FROM golang:1.13-buster as builder
+FROM golang:1.15-buster as builder
 
-ENV GOLANGCI_VERSION "1.18.0"
-ENV GOLANGCI_SHASUM "0ef2c502035d5f12d6d3a30a7c4469cfcae4dd3828d15fbbfb799c8331cd51c4"
+ENV GOLANGCI_VERSION "1.30.0"
+ENV GOLANGCI_SHASUM "c8e8fc5753e74d2eb489ad428dbce219eb9907799a57c02bcd8b80b4b98c60d4"
 
 WORKDIR /app
 
@@ -11,8 +11,9 @@ RUN \
   echo "deb http://deb.debian.org/debian bullseye main" | tee -a /etc/apt/sources.list \
   && echo "deb http://deb.debian.org/debian experimental main" | tee -a /etc/apt/sources.list \
   && apt-get update \
+  && apt-get install -t bullseye -y --no-install-recommends gcc-8-base libgcc-8-dev\
 # Start libheif
-  && apt-get install -t bullseye -y --no-install-recommends libheif-dev \
+  && apt-get install -t bullseye -y -o APT::Immediate-Configure=0 --no-install-recommends libheif-dev \
 # Start turbojpeg
   && apt-get install -t experimental -y --no-install-recommends libturbojpeg0-dev \
 # Install dep packages
