@@ -1,7 +1,7 @@
 package imagecoding
 
 import (
-	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -20,7 +20,7 @@ func TestConfig(t *testing.T) {
 		{"f2", "testdata/f2-exif.jpg", 40, 80},
 	}
 	for _, tt := range tests {
-		imgbytes, err := ioutil.ReadFile(tt.filename)
+		imgbytes, err := os.ReadFile(tt.filename)
 		assert.NoError(t, err)
 		exHeight := tt.height
 		exWidth := tt.width

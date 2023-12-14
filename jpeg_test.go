@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"image/jpeg"
 	"image/png"
-	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/Nr90/imgsim"
@@ -20,7 +20,7 @@ func TestJpegExif(t *testing.T) {
 	for f := 1; f <= 8; f++ {
 		filename := fmt.Sprintf("testdata/f%d-exif.jpg", f)
 		t.Run(fmt.Sprintf("f%d-exif.jpg", f), func(t *testing.T) {
-			jpegbytes, err := ioutil.ReadFile(filename)
+			jpegbytes, err := os.ReadFile(filename)
 			if err != nil {
 				t.Fatalf("Error reading file %v", err)
 			}
@@ -59,7 +59,7 @@ func TestJpegConformance(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
-		jpegbytes, err := ioutil.ReadFile(tt.filename)
+		jpegbytes, err := os.ReadFile(tt.filename)
 		if err != nil {
 			t.Fatalf("Error reading file %v", err)
 		}
@@ -117,7 +117,7 @@ func BenchmarkJPEG(b *testing.B) {
 }
 
 func BenchmarkJPEGTransform(b *testing.B) {
-	sample, err := ioutil.ReadFile("testdata/world-political.jpg")
+	sample, err := os.ReadFile("testdata/world-political.jpg")
 	if !assert.NoError(b, err) {
 		b.FailNow()
 	}

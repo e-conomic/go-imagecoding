@@ -3,7 +3,7 @@ package imagecoding
 import (
 	"bytes"
 	"image/png"
-	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/Nr90/imgsim"
@@ -35,7 +35,7 @@ func BenchmarkPNG(b *testing.B) {
 }
 
 func BenchmarkPNGComplex(b *testing.B) {
-	sample, err := ioutil.ReadFile("testdata/world-political.jpg")
+	sample, err := os.ReadFile("testdata/world-political.jpg")
 	if !assert.NoError(b, err) {
 		b.FailNow()
 	}
