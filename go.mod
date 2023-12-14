@@ -9,7 +9,7 @@ require (
 	github.com/harukasan/go-libwebp v0.0.0-20220408054828-61eedf90d768
 	github.com/rwcarlsen/goexif v0.0.0-20190401172101-9e8deecbddbd
 	github.com/stretchr/testify v1.8.4
-	github.com/strukturag/libheif v1.17.5
+	github.com/strukturag/libheif v1.11.0
 	go.uber.org/zap v1.26.0
 	golang.org/x/image v0.14.0
 )

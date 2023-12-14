@@ -20,11 +20,6 @@ RUN \
   && apt-get install -t buster -y --no-install-recommends libwebp-dev libpng-dev autoconf libtool make nasm pkg-config libgomp1 \
   && apt-get clean
 
-# RUN apt install -y software-properties-common
-# RUN add-apt-repository ppa:strukturag/libde265 
-# RUN add-apt-repository ppa:strukturag/libheif 
-# RUN apt-get update
-
 # Install GolangCI
 RUN wget -q https://github.com/golangci/golangci-lint/releases/download/v$GOLANGCI_VERSION/golangci-lint-$GOLANGCI_VERSION-linux-amd64.tar.gz \
   && echo -n "$GOLANGCI_SHASUM  golangci-lint-$GOLANGCI_VERSION-linux-amd64.tar.gz" | shasum -c - \
