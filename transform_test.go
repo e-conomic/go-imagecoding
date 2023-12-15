@@ -1,14 +1,14 @@
 package imagecoding
 
 import (
-	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestTransform(t *testing.T) {
-	sample, err := ioutil.ReadFile("testdata/gamer.png")
+	sample, err := os.ReadFile("testdata/gamer.png")
 	if !assert.NoError(t, err) {
 		t.FailNow()
 	}
@@ -31,7 +31,7 @@ func TestTransformNoError(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
-		sample, err := ioutil.ReadFile(tt.filename)
+		sample, err := os.ReadFile(tt.filename)
 		if !assert.NoError(t, err) {
 			t.FailNow()
 		}
@@ -51,7 +51,7 @@ func TestTransformEmpty(t *testing.T) {
 }
 
 func BenchmarkPNGTransform(b *testing.B) {
-	sample, err := ioutil.ReadFile("testdata/gamer.png")
+	sample, err := os.ReadFile("testdata/gamer.png")
 	if !assert.NoError(b, err) {
 		b.FailNow()
 	}

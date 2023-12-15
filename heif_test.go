@@ -1,16 +1,17 @@
+//go:build heif || darwin
 // +build heif darwin
 
 package imagecoding
 
 import (
-	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestHeifTransform(t *testing.T) {
-	sample, err := ioutil.ReadFile("testdata/world-political.heic")
+	sample, err := os.ReadFile("testdata/world-political.heic")
 	if !assert.NoError(t, err) {
 		t.FailNow()
 	}
@@ -32,7 +33,7 @@ func TestHeifTransform(t *testing.T) {
 }
 
 func BenchmarkHeifTransform(b *testing.B) {
-	sample, err := ioutil.ReadFile("testdata/world-political.heic")
+	sample, err := os.ReadFile("testdata/world-political.heic")
 	if !assert.NoError(b, err) {
 		b.FailNow()
 	}

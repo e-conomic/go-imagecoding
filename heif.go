@@ -1,3 +1,4 @@
+//go:build heif || darwin
 // +build heif darwin
 
 package imagecoding
@@ -6,9 +7,9 @@ import (
 	"image"
 	"image/color"
 	"runtime"
-)
 
-import "github.com/strukturag/libheif/go/heif"
+	"github.com/strukturag/libheif/go/heif"
+)
 
 func ConfigHeif(data []byte) (image.Config, string, error) {
 	if len(data) == 0 {

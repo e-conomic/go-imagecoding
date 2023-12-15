@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"image/jpeg"
-	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/Nr90/imgsim"
@@ -17,7 +17,7 @@ func TestJpegExifReference(t *testing.T) {
 	for f := 1; f <= 8; f++ {
 		filename := fmt.Sprintf("testdata/f%d-exif.jpg", f)
 		t.Run(fmt.Sprintf("f%d-exif.jpg", f), func(t *testing.T) {
-			jpegbytes, err := ioutil.ReadFile(filename)
+			jpegbytes, err := os.ReadFile(filename)
 			if err != nil {
 				t.Fatalf("Error reading file %v", err)
 			}

@@ -7,8 +7,8 @@ import (
 	_ "image/gif"
 	_ "image/jpeg"
 	_ "image/png"
-	"io/ioutil"
 	"math"
+	"os"
 	"testing"
 
 	"github.com/Nr90/imgsim"
@@ -61,7 +61,7 @@ func makeTestImage() *image.Gray {
 }
 
 func readImageHash(filename string, t *testing.T, diffhash bool) imgsim.Hash {
-	imgbytes, err := ioutil.ReadFile(filename)
+	imgbytes, err := os.ReadFile(filename)
 	if err != nil {
 		t.Fatalf("Error reading file %v", err)
 	}
