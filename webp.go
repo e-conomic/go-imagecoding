@@ -6,7 +6,7 @@ import (
 	"errors"
 	"image"
 
-	"github.com/harukasan/go-libwebp/webp"
+	"github.com/pixiv/go-libwebp/webp"
 )
 
 func EncodeWebP(buf *bytes.Buffer, img image.Image) ([]byte, error) {

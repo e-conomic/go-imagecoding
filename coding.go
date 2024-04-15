@@ -6,7 +6,7 @@ import (
 	"errors"
 	"math"
 
-	"github.com/harukasan/go-libwebp/webp"
+	"github.com/pixiv/go-libwebp/webp"
 )
 
 // RGBImage is a good idea, so let's borrow it and make it our own
