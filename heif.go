@@ -13,7 +13,7 @@ import (
 
 func ConfigHeif(data []byte) (image.Config, string, error) {
 	if len(data) == 0 {
-		return image.Config{}, string(Heif), EmptyInputError
+		return image.Config{}, string(Heif), ErrEmptyInput
 	}
 	ctx, err := heif.NewContext()
 	if err != nil {
@@ -38,7 +38,7 @@ func ConfigHeif(data []byte) (image.Config, string, error) {
 
 func DecodeHeif(data []byte) (image.Image, error) {
 	if len(data) == 0 {
-		return nil, EmptyInputError
+		return nil, ErrEmptyInput
 	}
 	ctx, err := heif.NewContext()
 	if err != nil {
@@ -66,7 +66,7 @@ func DecodeHeif(data []byte) (image.Image, error) {
 
 func TransformHeif(data []byte, grayscale bool, scale ScaleFunc) (out image.Image, width, height int, scaleFactor float64, err error) {
 	if len(data) == 0 {
-		return nil, 0, 0, 0, EmptyInputError
+		return nil, 0, 0, 0, ErrEmptyInput
 	}
 	ctx, err := heif.NewContext()
 	if err != nil {

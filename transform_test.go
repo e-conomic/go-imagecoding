@@ -46,7 +46,7 @@ func TestTransformEmpty(t *testing.T) {
 	empty := []byte{}
 	_, _, _, _, err := Transform(empty, true, DefaultScale)
 	if assert.Error(t, err) {
-		assert.Equal(t, EmptyInputError, err)
+		assert.Equal(t, ErrEmptyInput, err)
 	}
 }
 

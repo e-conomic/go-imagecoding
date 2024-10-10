@@ -18,7 +18,7 @@ import (
 // Transform scales, colormaps and orients an image according to input param
 func Transform(data []byte, grayscale bool, scale ScaleFunc) (out image.Image, width, height int, scaleFactor float64, err error) {
 	if len(data) == 0 {
-		return nil, 0, 0, 0, EmptyInputError
+		return nil, 0, 0, 0, ErrEmptyInput
 	}
 	// Look at the magic bytes to determine the file type
 	kind, err := filetype.Match(data)
