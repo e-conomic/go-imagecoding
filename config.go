@@ -17,7 +17,7 @@ import (
 // For JPEGs it uses jpeg-turbos internal function for compatibility
 func DecodeConfig(content []byte) (image.Config, string, error) {
 	if len(content) == 0 {
-		return image.Config{}, "", EmptyInputError
+		return image.Config{}, "", ErrEmptyInput
 	}
 	// Look at the magic bytes to determine the file type
 	kind, err := filetype.Match(content)

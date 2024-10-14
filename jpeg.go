@@ -119,7 +119,7 @@ func getTransformOperation(orient Orientation) []TurboJpegOperation {
 // It returns a buffer with JPEG encoding
 func ReOrientJpeg(file []byte, orient Orientation) ([]byte, error) {
 	if len(file) == 0 {
-		return nil, EmptyInputError
+		return nil, ErrEmptyInput
 	}
 	// Init a transform
 	tjHandle := C.tjInitTransform()
@@ -163,7 +163,7 @@ func ReOrientJpeg(file []byte, orient Orientation) ([]byte, error) {
 
 func ConfigJpeg(data []byte) (image.Config, string, error) {
 	if len(data) == 0 {
-		return image.Config{}, string(Jpeg), EmptyInputError
+		return image.Config{}, string(Jpeg), ErrEmptyInput
 	}
 
 	// Init Turbo-JPEG Decompression
@@ -211,7 +211,7 @@ func ConfigJpeg(data []byte) (image.Config, string, error) {
 // This will use libjpeg-turbo to do it as efficiently as possible, utilizing DCT factors for fast scaling
 func TransformJpeg(data []byte, grayscale bool, scale ScaleFunc) (out image.Image, width, height int, scaleFactor float64, err error) {
 	if len(data) == 0 {
-		return nil, 0, 0, -1, EmptyInputError
+		return nil, 0, 0, -1, ErrEmptyInput
 	}
 
 	// Init Turbo-JPEG Decompression
